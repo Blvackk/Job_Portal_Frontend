@@ -5,6 +5,7 @@ import { clearAllJobErrors, fetchJobs } from "../store/slices/jobSlice";
 import Spinner from "../components/Spinner";
 import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import notFoundImg from "../assets/notfound.png";
 
 const Jobs = () => {
   const [city, setCity] = useState("");
@@ -26,13 +27,28 @@ const Jobs = () => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-      dispatch(clearAllJobErrors());
-    }
-    dispatch(fetchJobs(city, niche, searchKeyword));
-  }, [dispatch, error, city, niche]);
+  // useEffect(() => {
+  //   if (error) {
+  //     toast.error(error);
+  //     dispatch(clearAllJobErrors());
+  //   }
+  //   dispatch(fetchJobs(city, niche, searchKeyword));
+  // }, [dispatch, error, city, niche]);
+
+
+  // effect #1: fetch when filters change
+useEffect(() => {
+  dispatch(fetchJobs(city, niche, searchKeyword));
+}, [dispatch, city, niche]); // <-- no `error`
+
+// effect #2: toast errors only
+useEffect(() => {
+  if (error) {
+    toast.error(error);
+    dispatch(clearAllJobErrors());
+  }
+}, [dispatch, error]);
+
 
   const handleSearch = () => {
     dispatch(fetchJobs(city, niche, searchKeyword));
@@ -194,7 +210,7 @@ const Jobs = () => {
                   })) : (
                   /************************************************************/
                   /* BUG No.2 */
-                  <img src="./notfound.png" alt="job-not-found" style={{width: "100%"}}/>)
+                  <img src={notFoundImg} alt="job-not-found" style={{width: "100%"}}/>)
                   /************************************************************/
 
 
