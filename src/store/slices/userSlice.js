@@ -95,9 +95,10 @@ export const register = (data) => async (dispatch) => {
   dispatch(userSlice.actions.registerRequest());
   try {
     const response = await api.post("/api/v1/user/register", data, {
-      withCredentials: true,
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+  withCredentials: true,
+  headers: { "Content-Type": "multipart/form-data" },
+});
+
     dispatch(userSlice.actions.registerSuccess(response.data));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
@@ -109,9 +110,10 @@ export const login = (data) => async (dispatch) => {
   dispatch(userSlice.actions.loginRequest());
   try {
     const response = await api.post("/api/v1/user/login", data, {
-      withCredentials: true,
-      headers: { "Content-Type": "application/json" },
-    });
+  withCredentials: true,
+  headers: { "Content-Type": "application/json" },
+});
+
     dispatch(userSlice.actions.loginSuccess(response.data));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
@@ -122,9 +124,9 @@ export const login = (data) => async (dispatch) => {
 export const getUser = () => async (dispatch) => {
   dispatch(userSlice.actions.fetchUserRequest());
   try {
-    const response = await api.get("/api/v1/user/getuser", {
-      withCredentials: true,
-    });
+    const response = await api.get("/api/v1/user/getUser", {
+  withCredentials: true,
+});
     dispatch(userSlice.actions.fetchUserSuccess(response.data.user));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
@@ -134,9 +136,7 @@ export const getUser = () => async (dispatch) => {
 
 export const logout = () => async (dispatch) => {
   try {
-    await api.get("/api/v1/user/logout", {
-      withCredentials: true,
-    });
+    await api.get("/api/v1/user/logout", { withCredentials: true });
     dispatch(userSlice.actions.logoutSuccess());
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
