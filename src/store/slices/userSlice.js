@@ -110,6 +110,7 @@ export const login = (data) => async (dispatch) => {
   try {
     const response = await api.post("/api/v1/user/login", data, {
       withCredentials: true,
+      headers: { "Content-Type": "application/json" },
     });
     dispatch(userSlice.actions.loginSuccess(response.data));
     dispatch(userSlice.actions.clearAllErrors());
