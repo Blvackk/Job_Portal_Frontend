@@ -1,6 +1,7 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import api from "../../lib/axios";
 
 const userSlice = createSlice({
   name: "user",
@@ -89,71 +90,121 @@ const userSlice = createSlice({
   },
 });
 
+
 export const register = (data) => async (dispatch) => {
   dispatch(userSlice.actions.registerRequest());
   try {
-    const response = await axios.post(
-      "https://job-portal-backend-44uu.onrender.com/api/v1/user/register",
-      data,
-      {
-        withCredentials: true,
-        headers: { "Content-Type": "multipart/form-data" },
-      }
-    );
+    const response = await api.post("/api/v1/user/register", data, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
     dispatch(userSlice.actions.registerSuccess(response.data));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
-    dispatch(userSlice.actions.registerFailed(error.response.data.message));
+    dispatch(userSlice.actions.registerFailed(error.response?.data?.message));
   }
 };
 
 export const login = (data) => async (dispatch) => {
   dispatch(userSlice.actions.loginRequest());
   try {
-    const response = await axios.post(
-      "https://job-portal-backend-44uu.onrender.com/api/v1/user/login",
-      data,
-      {
-        withCredentials: true,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    const response = await api.post("/api/v1/user/login", data, {
+      headers: { "Content-Type": "application/json" },
+    });
     dispatch(userSlice.actions.loginSuccess(response.data));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
-    dispatch(userSlice.actions.loginFailed(error.response.data.message));
+    dispatch(userSlice.actions.loginFailed(error.response?.data?.message));
   }
 };
 
 export const getUser = () => async (dispatch) => {
   dispatch(userSlice.actions.fetchUserRequest());
   try {
-    const response = await axios.get(
-      "https://job-portal-backend-44uu.onrender.com/api/v1/user/getuser",
-      {
-        withCredentials: true,
-      }
-    );
+    const response = await api.get("/api/v1/user/getuser");
     dispatch(userSlice.actions.fetchUserSuccess(response.data.user));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
-    dispatch(userSlice.actions.fetchUserFailed(error.response.data.message));
+    dispatch(userSlice.actions.fetchUserFailed(error.response?.data?.message));
   }
 };
+
 export const logout = () => async (dispatch) => {
   try {
-    const response = await axios.get(
-      "https://job-portal-backend-44uu.onrender.com/api/v1/user/logout",
-      {
-        withCredentials: true,
-      }
-    );
+    await api.get("/api/v1/user/logout");
     dispatch(userSlice.actions.logoutSuccess());
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
-    dispatch(userSlice.actions.logoutFailed(error.response.data.message));
+    dispatch(userSlice.actions.logoutFailed(error.response?.data?.message));
   }
 };
+
+
+// export const register = (data) => async (dispatch) => {
+//   dispatch(userSlice.actions.registerRequest());
+//   try {
+//     const response = await axios.post(
+//       "https://job-portal-backend-44uu.onrender.com/api/v1/user/register",
+//       data,
+//       {
+//         withCredentials: true,
+//         headers: { "Content-Type": "multipart/form-data" },
+//       }
+//     );
+//     dispatch(userSlice.actions.registerSuccess(response.data));
+//     dispatch(userSlice.actions.clearAllErrors());
+//   } catch (error) {
+//     dispatch(userSlice.actions.registerFailed(error.response.data.message));
+//   }
+// };
+
+// export const login = (data) => async (dispatch) => {
+//   dispatch(userSlice.actions.loginRequest());
+//   try {
+//     // const response = await axios.post(
+//     //   "https://job-portal-backend-44uu.onrender.com/api/v1/user/login",
+//     //   data,
+//     //   {
+//     //     withCredentials: true,
+//     //     headers: { "Content-Type": "application/json" },
+//     //   }
+//     // );
+//     const response = await api.post("/api/v1/login", data);
+//     dispatch(userSlice.actions.loginSuccess(response.data));
+//     dispatch(userSlice.actions.clearAllErrors());
+//   } catch (error) {
+//     dispatch(userSlice.actions.loginFailed(error.response.data.message));
+//   }
+// };
+
+// export const getUser = () => async (dispatch) => {
+//   dispatch(userSlice.actions.fetchUserRequest());
+//   try {
+//     const response = await axios.get(
+//       "https://job-portal-backend-44uu.onrender.com/api/v1/user/getuser",
+//       {
+//         withCredentials: true,
+//       }
+//     );
+//     dispatch(userSlice.actions.fetchUserSuccess(response.data.user));
+//     dispatch(userSlice.actions.clearAllErrors());
+//   } catch (error) {
+//     dispatch(userSlice.actions.fetchUserFailed(error.response.data.message));
+//   }
+// };
+// export const logout = () => async (dispatch) => {
+//   try {
+//     const response = await axios.get(
+//       "https://job-portal-backend-44uu.onrender.com/api/v1/user/logout",
+//       {
+//         withCredentials: true,
+//       }
+//     );
+//     dispatch(userSlice.actions.logoutSuccess());
+//     dispatch(userSlice.actions.clearAllErrors());
+//   } catch (error) {
+//     dispatch(userSlice.actions.logoutFailed(error.response.data.message));
+//   }
+// };
 
 export const clearAllUserErrors = () => (dispatch) => {
   dispatch(userSlice.actions.clearAllErrors());
