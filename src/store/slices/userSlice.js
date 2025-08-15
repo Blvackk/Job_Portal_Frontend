@@ -107,9 +107,7 @@ export const register = (data) => async (dispatch) => {
 export const login = (data) => async (dispatch) => {
   dispatch(userSlice.actions.loginRequest());
   try {
-    const response = await api.post("/api/v1/user/login", data, {
-      headers: { "Content-Type": "application/json" },
-    });
+    const response = await api.post("/api/v1/user/login", data);
     dispatch(userSlice.actions.loginSuccess(response.data));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
