@@ -19,14 +19,25 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
 
+  // const handleLogin = (e) => {
+  //   e.preventDefault();
+  //   const formData = new FormData();
+  //   formData.append("role", role);
+  //   formData.append("email", email);
+  //   formData.append("password", password);
+  //   dispatch(login(formData));
+  // };
+
   const handleLogin = (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("role", role);
-    formData.append("email", email);
-    formData.append("password", password);
-    dispatch(login(formData));
+  e.preventDefault();
+  const userData = {
+    role,
+    email,
+    password,
   };
+  dispatch(login(userData));
+};
+
 
   useEffect(() => {
     if (error) {

@@ -101,7 +101,7 @@ export const fetchJobs = (city, niche, searchKeyword = "") => async (dispatch) =
     if (city && city !== "All") queryParams.push(`city=${city}`);
     if (niche && niche !== "All") queryParams.push(`niche=${niche}`);
 
-    const link = `https://job-portal-backend-44uu.onrender.com/api/v1/job/getall?${queryParams.join("&")}`;
+    const link = `http://localhost:4000/api/v1/job/getall?${queryParams.join("&")}`;
     const { data } = await axios.get(link, { withCredentials: true });
 
     dispatch(jobSlice.actions.successForAllJobs(data.jobs));
@@ -114,7 +114,7 @@ export const fetchJobs = (city, niche, searchKeyword = "") => async (dispatch) =
 export const fetchSingleJob = (jobId) => async (dispatch) => {
   try {
     dispatch(jobSlice.actions.requestForSingleJob());
-    const { data } = await axios.get(`https://job-portal-backend-44uu.onrender.com/api/v1/job/get/${jobId}`, { withCredentials: true });
+    const { data } = await axios.get(`http://localhost:4000/api/v1/job/get/${jobId}`, { withCredentials: true });
     dispatch(jobSlice.actions.successForSingleJob(data.job));
   } catch (error) {
     dispatch(jobSlice.actions.failureForSingleJob(error.response?.data?.message || "Error fetching job"));
@@ -126,7 +126,7 @@ export const postJob = (data) => async (dispatch) => {
   dispatch(jobSlice.actions.requestForPostJob());
   try {
     const response = await axios.post(
-      `https://job-portal-backend-44uu.onrender.com/api/v1/job/post`,
+      `http://localhost:4000/api/v1/job/post`,
       data,
       { withCredentials: true, headers: { "Content-Type": "application/json" } }
     );
@@ -143,7 +143,7 @@ export const getMyJobs = () => async (dispatch) => {
   dispatch(jobSlice.actions.requestForMyJobs());
   try {
     const response = await axios.get(
-      `https://job-portal-backend-44uu.onrender.com/api/v1/job/getmyjobs`,
+      `http://localhost:4000/api/v1/job/getmyjobs`,
       { withCredentials: true }
     );
     dispatch(jobSlice.actions.successForMyJobs(response.data.myJobs));
@@ -158,7 +158,7 @@ export const deleteJob = (id) => async (dispatch) => {
   dispatch(jobSlice.actions.requestForDeleteJob());
   try {
     const response = await axios.delete(
-      `https://job-portal-backend-44uu.onrender.com/api/v1/job/delete/${id}`,
+      `http://localhost:4000/api/v1/job/delete/${id}`,
       { withCredentials: true }
     );
     dispatch(jobSlice.actions.successForDeleteJob(response.data.message));
